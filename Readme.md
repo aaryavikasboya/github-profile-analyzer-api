@@ -3,6 +3,14 @@
 A backend API that fetches GitHub user data using the GitHub API and stores it in a MySQL database for analysis and retrieval.
 
 ---
+## 🌐 Live Demo
+
+**Base URL**
+
+```txt
+https://github-profile-analyzer-api-3ag4.onrender.com
+```
+---
 
 ## 🛠 Tech Stack
 ![Node.js](https://img.shields.io/badge/Node.js-18-green)
@@ -55,10 +63,6 @@ GET /api/v1/profiles?page=1&limit=5
 ---
 ### 3. 🔎 Search Profiles by Username
 ```
-GET /api/v1/profiles/search?username=
-```
-Example:
-```
 GET /api/v1/profiles/search?username=octo
 ```
 --- 
@@ -77,12 +81,13 @@ GET /api/v1/profiles/1
 ```sql
 CREATE TABLE profiles (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    username VARCHAR(255) UNIQUE,
-    followers INT,
-    following INT,
-    public_repos INT,
-    avatar_url TEXT,
+    username VARCHAR(255) NOT NULL UNIQUE,
+    name VARCHAR(255),
+    followers INT DEFAULT 0,
+    following INT DEFAULT 0,
+    public_repos INT DEFAULT 0,
     profile_url TEXT,
+    avatar_url TEXT,
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 ```
@@ -92,8 +97,8 @@ CREATE TABLE profiles (
 
 ### 1. Clone repo
 ```bash
-git clone <your-repo-url>
-cd github-profile-analyzer
+git clone https://github.com/aaryavikasboya/github-profile-analyzer-api.git
+cd github-profile-analyzer-api
 ```
 ---
 
@@ -103,11 +108,15 @@ npm install
 ```
 ---
 
-### 3. Create .env file
-```
-DB_USER=root
-DB_PASSWORD=
-DB_NAME=github_analyzer
+### 3. Create `.env` file
+
+```env
+DB_HOST=your_host
+DB_PORT=your_port
+DB_NAME=your_database
+DB_USER=your_user
+DB_PASSWORD=your_password
+
 PORT=8000
 ```
 ---
@@ -135,22 +144,41 @@ GitHub API → Service Layer → Controller → MySQL DB → API Response
 - Backend architecture structure
 
 ---
+## 📮 API Testing
+
+All API endpoints were tested using Postman during development and before deployment.
+
+---
 
 ## 🔥 Example Response
 ```json
 {
   "statusCode": 200,
   "data": {
+    "id": 1,
     "username": "octocat",
-    "followers": 22786,
+    "name": null,
+    "followers": 22791,
     "following": 9,
     "public_repos": 8,
-    "avatar_url": "...",
-    "profile_url": "..."
+    "profile_url": "https://github.com/octocat",
+    "avatar_url": "https://avatars.githubusercontent.com/u/583231?v=4",
+    "created_at": "2026-05-30T07:15:49.000Z"
   },
   "message": "User data fetched successfully",
   "success": true
 }
+```
+---
+## ☁️ Deployment
+
+- Backend hosted on Render
+- MySQL database hosted on Railway
+
+Live URL:
+
+```txt
+https://github-profile-analyzer-api-3ag4.onrender.com
 ```
 ---
 
